@@ -18,13 +18,13 @@ function App() {
         </a>
         <div className="navbar-nav mr-auto">
           <li className="nav-item">
-            <Link to={"/tutorials"} className="nav-link">
-              Tutorials
+            <Link to={"/products"} className="nav-link">
+              Products
             </Link>
           </li>
           <li className="nav-item">
-            <Link to={"/products"} className="nav-link">
-              Products
+            <Link to={"/orders"} className="nav-link">
+              Orders
             </Link>
           </li>
         </div>

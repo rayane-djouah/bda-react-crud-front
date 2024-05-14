@@ -25,7 +25,7 @@ const removeAll = () => {
 };
 
 const findByNAME = (NAME) => {
-  return http.get(`/Products?name=${NAME}`);
+  return http.get(`/Orders?name=${NAME}`);
 };
 
 const OrderService = {
