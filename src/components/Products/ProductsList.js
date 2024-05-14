@@ -77,16 +77,35 @@ const ProductsList = (props) => {
         console.log(e);
       });
   };
-
   const columns = useMemo(
     () => [
       {
-        Header: "NAME",
-        accessor: "NAME",
+        Header: "id",
+        accessor: "id",
       },
       {
-        Header: "Description",
+        Header: "product_code",
+        accessor: "product_code",
+      },
+      {
+        Header: "name",
+        accessor: "name",
+      },
+      {
+        Header: "description",
         accessor: "description",
+      },
+      {
+        Header: "category_id",
+        accessor: "category_id",
+      },
+      {
+        Header: "price",
+        accessor: "price",
+      },
+      {
+        Header: "stock",
+        accessor: "stock",
       },
       {
         Header: "Status",
