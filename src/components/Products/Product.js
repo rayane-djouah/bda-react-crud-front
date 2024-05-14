@@ -3,17 +3,20 @@ import ProductDataService from "../../services/ProductsService";
 
 const Product = (props) => {
   const initialProductState = {
-    ID: null,
-    NAME: "",
-    PRICE: "",
-    PRODUCT_CODE: "",
-    STOCK: 0,
+    id: 0,
+    product_code: "",
+    name: "",
+    description: "",
+    category_id: 0,
+    price: 0,
+    stock: 0,
+    published: true,
   };
   const [currentProduct, setCurrentProduct] = useState(initialProductState);
   const [message, setMessage] = useState("");
 
-  const getProduct = (ID) => {
-    ProductDataService.get(ID)
+  const getProduct = (id) => {
+    ProductDataService.get(id)
       .then((response) => {
         setCurrentProduct(response.data);
         console.log(response.data);
@@ -34,13 +37,16 @@ const Product = (props) => {
 
   const updatePublished = (status) => {
     var data = {
-      ID: currentProduct.ID,
-      NAME: currentProduct.NAME,
-      PRICE: currentProduct.PRICE,
-      published: status,
+      id: currentProduct.id,
+      product_code: currentProduct.product_code,
+      name: currentProduct.name,
+      description: currentProduct.description,
+      category_id: currentProduct.category_id,
+      price: currentProduct.price,
+      stock: currentProduct.stock,
     };
 
-    ProductDataService.update(currentProduct.ID, data)
+    ProductDataService.update(currentProduct.id, data)
       .then((response) => {
         setCurrentProduct({ ...currentProduct, published: status });
         console.log(response.data);
@@ -52,7 +58,7 @@ const Product = (props) => {
   };
 
   const updateProduct = () => {
-    ProductDataService.update(currentProduct.ID, currentProduct)
+    ProductDataService.update(currentProduct.id, currentProduct)
       .then((response) => {
         console.log(response.data);
         setMessage("The Product was updated successfully!");
@@ -63,7 +69,7 @@ const Product = (props) => {
   };
 
   const deleteProduct = () => {
-    ProductDataService.remove(currentProduct.ID)
+    ProductDataService.remove(currentProduct.id)
       .then((response) => {
         console.log(response.data);
         props.history.push("/Products");
@@ -80,28 +86,71 @@ const Product = (props) => {
           <h4>Product</h4>
           <form>
             <div className="form-group">
-              <label htmlFor="NAME">NAME</label>
+              <label htmlFor="product_code">Product Code</label>
               <input
                 type="text"
                 className="form-control"
-                id="NAME"
-                name="NAME"
-                value={currentProduct.NAME}
+                id="product_code"
+                name="product_code"
+                value={currentProduct.product_code}
                 onChange={handleInputChange}
               />
             </div>
             <div className="form-group">
-              <label htmlFor="PRICE">PRICE</label>
+              <label htmlFor="name">Name</label>
               <input
                 type="text"
                 className="form-control"
-                id="PRICE"
-                name="PRICE"
-                value={currentProduct.PRICE}
+                id="name"
+                name="name"
+                value={currentProduct.name}
                 onChange={handleInputChange}
               />
             </div>
-
+            <div className="form-group">
+              <label htmlFor="description">Description</label>
+              <input
+                type="text"
+                className="form-control"
+                id="description"
+                name="description"
+                value={currentProduct.description}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="category_id">Category id</label>
+              <input
+                type="text"
+                className="form-control"
+                id="category_id"
+                name="category_id"
+                value={currentProduct.category_id}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="price">Price</label>
+              <input
+                type="number"
+                className="form-control"
+                id="price"
+                name="price"
+                value={currentProduct.price}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="stock">Stock</label>
+              <input
+                type="number"
+                className="form-control"
+                id="stock"
+                name="stock"
+                value={currentProduct.stock}
+                onChange={handleInputChange}
+              />
+            </div>
             <div className="form-group">
               <label>
                 <strong>Status:</strong>

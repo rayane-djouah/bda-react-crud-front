@@ -45,8 +45,8 @@ const ProductsList = (props) => {
       });
   };
 
-  const findByNAME = () => {
-    ProductDataService.findByNAME(searchNAME)
+  const findByName = () => {
+    ProductDataService.findByName(searchNAME)
       .then((response) => {
         setProducts(response.data);
       })
@@ -138,7 +138,7 @@ const ProductsList = (props) => {
             <button
               className="btn btn-outline-secondary"
               type="button"
-              onClick={findByNAME}
+              onClick={findByName}
             >
               Search
             </button>

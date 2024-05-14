@@ -1,31 +1,31 @@
 import http from "../http-common";
 
 const getAll = () => {
-  return http.get("/Products");
+  return http.get("/products");
 };
 
 const get = (id) => {
-  return http.get(`/Products/${id}`);
+  return http.get(`/products/${id}`);
 };
 
 const create = (data) => {
-  return http.post("/Products", data);
+  return http.post("/products", data);
 };
 
 const update = (id, data) => {
-  return http.put(`/Products/${id}`, data);
+  return http.put(`/products/${id}`, data);
 };
 
 const remove = (id) => {
-  return http.delete(`/Products/${id}`);
+  return http.delete(`/products/${id}`);
 };
 
 const removeAll = () => {
-  return http.delete(`/Products`);
+  return http.delete(`/products`);
 };
 
-const findByNAME = (NAME) => {
-  return http.get(`/Products?name=${NAME}`);
+const findByName = (NAME) => {
+  return http.get(`/products?name=${NAME}`);
 };
 
 const ProductService = {
@@ -35,7 +35,7 @@ const ProductService = {
   update,
   remove,
   removeAll,
-  findByNAME,
+  findByName,
 };
 
 export default ProductService;
