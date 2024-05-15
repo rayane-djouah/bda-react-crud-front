@@ -26,6 +26,10 @@ const OrdersList = (props) => {
   const columns = useMemo(
     () => [
       {
+        Header: "Customer ID",
+        accessor: "customer_id",
+      },
+      {
         Header: "Product ID",
         accessor: "product_id",
       },
