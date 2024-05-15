@@ -89,7 +89,61 @@ const Product = () => {
                 onChange={handleInputChange}
               />
             </div>
-            {/* Other input fields */}
+            <div className="form-group">
+              <label htmlFor="name">Name</label>
+              <input
+                type="text"
+                className="form-control"
+                id="name"
+                name="name"
+                value={currentProduct.name}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="description">Description</label>
+              <input
+                type="text"
+                className="form-control"
+                id="description"
+                name="description"
+                value={currentProduct.description}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="category_id">Category ID</label>
+              <input
+                type="number"
+                className="form-control"
+                id="category_id"
+                name="category_id"
+                value={currentProduct.category_id}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="price">Price</label>
+              <input
+                type="number"
+                className="form-control"
+                id="price"
+                name="price"
+                value={currentProduct.price}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="stock">Stock</label>
+              <input
+                type="number"
+                className="form-control"
+                id="stock"
+                name="stock"
+                value={currentProduct.stock}
+                onChange={handleInputChange}
+              />
+            </div>
             <div className="form-group">
               <label>
                 <strong>Status:</strong>

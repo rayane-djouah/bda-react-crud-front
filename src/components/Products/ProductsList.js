@@ -118,7 +118,10 @@ const ProductsList = (props) => {
             <span onClick={() => openProduct(row.id)}>
               <i className="far fa-edit action mr-2"></i>
             </span>
-            <span onClick={() => deleteProduct(row.id)}>
+            <span
+              onClick={() => deleteProduct(row.id)}
+              style={{ marginLeft: "8px" }}
+            >
               <i className="fas fa-trash action"></i>
             </span>
           </div>
@@ -133,7 +136,9 @@ const ProductsList = (props) => {
       columns,
       data: products,
     });
-
+  const handleAddProduct = () => {
+    navigate("/products/add");
+  };
   return (
     <div className="list row">
       <div className="col-md-8">
@@ -190,6 +195,13 @@ const ProductsList = (props) => {
       <div className="col-md-8">
         <button className="btn btn-sm btn-danger" onClick={removeAllProducts}>
           Remove All
+        </button>
+        <button
+          className="btn btn-sm btn-primary"
+          style={{ marginLeft: "8px" }}
+          onClick={handleAddProduct}
+        >
+          Add Product
         </button>
       </div>
     </div>
