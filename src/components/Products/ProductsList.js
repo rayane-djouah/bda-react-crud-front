@@ -7,7 +7,6 @@ import Product from "./Product";
 const ProductsList = (props) => {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
-  const [searchName, setSearchName] = useState("");
   const [selectedProduct, setSelectedProduct] = useState(null);
   const productsRef = useRef();
 
@@ -17,39 +16,10 @@ const ProductsList = (props) => {
     retrieveProducts();
   }, []);
 
-  const onChangeSearchName = (e) => {
-    const searchName = e.target.value;
-    setSearchName(searchName);
-  };
-
   const retrieveProducts = () => {
     ProductDataService.getAll()
       .then((response) => {
         console.log(response);
-        setProducts(response.data);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  };
-
-  const refreshList = () => {
-    retrieveProducts();
-  };
-
-  const removeAllProducts = () => {
-    ProductDataService.removeAll()
-      .then((response) => {
-        refreshList();
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  };
-
-  const findByName = () => {
-    ProductDataService.findByName(searchName)
-      .then((response) => {
         setProducts(response.data);
       })
       .catch((e) => {
@@ -179,9 +149,6 @@ const ProductsList = (props) => {
       </div>
 
       <div className="col-md-8">
-        <button className="btn btn-sm btn-danger" onClick={removeAllProducts}>
-          Remove All
-        </button>
         <button
           className="btn btn-sm btn-primary"
           style={{ marginLeft: "8px" }}
