@@ -43,7 +43,7 @@ const Customer = ({ Customer, handleDeleteCustomer, handleUpdateCustomer }) => {
     <div style={{ marginTop: "10px" }}>
       {currentCustomer ? (
         <div className="edit-form">
-          <h4>Customer</h4>
+          <h4>Edit Customer Balance</h4>
           <form>
             <div className="form-group">
               <label htmlFor="id">Customer id</label>
