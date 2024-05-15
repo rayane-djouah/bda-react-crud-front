@@ -18,7 +18,7 @@ function App() {
   return (
     <div>
       <nav className="navbar navbar-expand navbar-dark bg-dark">
-        <a href="/" className="navbar-brand">
+        <a href="/" className="navbar-brand" style={{ marginLeft: "8px" }}>
           Projet BDA
         </a>
         <div className="navbar-nav mr-auto">

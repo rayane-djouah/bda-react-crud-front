@@ -2,10 +2,12 @@ import React, { useState, useEffect, useMemo, useRef } from "react";
 import CustomerDataService from "../../services/CustomersService";
 import { useTable } from "react-table";
 import { useNavigate } from "react-router-dom";
+import Customer from "./Customer";
 
 const CustomersList = (props) => {
   const navigate = useNavigate();
   const [Customers, setCustomers] = useState([]);
+  const [selectedCustomer, setSelectedCustomer] = useState(null);
   const CustomersRef = useRef();
 
   CustomersRef.current = Customers;
@@ -25,16 +27,33 @@ const CustomersList = (props) => {
       });
   };
 
+  const openCustomer = (rowIndex) => {
+    setSelectedCustomer(CustomersRef.current[rowIndex]);
+  };
+
   const handleDeleteCustomer = (CustomerId) => {
     CustomerDataService.remove(CustomerId)
       .then((response) => {
         setCustomers((prevCustomers) =>
           prevCustomers.filter((Customer) => Customer.id !== CustomerId)
         );
+        setSelectedCustomer(null);
       })
       .catch((error) => {
         console.log(error);
       });
+  };
+
+  const handleUpdateCustomer = (updatedCustomer) => {
+    const index = Customers.findIndex(
+      (Customer) => Customer.id === updatedCustomer.id
+    );
+    if (index !== -1) {
+      const updatedCustomers = [...Customers];
+      updatedCustomers[index] = updatedCustomer;
+      setCustomers(updatedCustomers);
+      setSelectedCustomer(updatedCustomer);
+    }
   };
 
   const columns = useMemo(
@@ -64,6 +83,9 @@ const CustomersList = (props) => {
         accessor: "actions",
         Cell: ({ row }) => (
           <div>
+            <span onClick={() => openCustomer(row.id)}>
+              <i className="far fa-edit action mr-2"></i>
+            </span>
             <span
               onClick={() => handleDeleteCustomer(row.original.id)}
               style={{ marginLeft: "8px" }}
@@ -127,6 +149,14 @@ const CustomersList = (props) => {
           Add Customer
         </button>
       </div>
+
+      {selectedCustomer && (
+        <Customer
+          Customer={selectedCustomer}
+          handleUpdateCustomer={handleUpdateCustomer}
+          handleDeleteCustomer={handleDeleteCustomer}
+        />
+      )}
     </div>
   );
 };
