@@ -40,6 +40,7 @@ const AddProduct = () => {
 
   return (
     <div className="submit-form" style={{ marginTop: "10px" }}>
+      <h4>Add Product</h4>
       {submitted ? (
         <div>
           <h4>You submitted successfully!</h4>

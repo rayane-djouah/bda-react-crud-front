@@ -97,6 +97,7 @@ const CartEntriesList = () => {
   return (
     <div className="list row">
       <div className="col-md-12 list">
+        <h4>Customer's Cart</h4>
         <table
           className="table table-striped table-bordered"
           {...getTableProps()}

@@ -49,6 +49,7 @@ const OrdersList = (props) => {
   return (
     <div className="list row">
       <div className="col-md-12 list">
+        <h4>Orders List</h4>
         <table
           className="table table-striped table-bordered"
           {...getTableProps()}
