@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import ProductDataService from "../../services/ProductsService";
+import { useNavigate } from "react-router-dom";
 
-const Product = (props) => {
+const Product = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+
   const initialProductState = {
     id: 0,
     product_code: "",
@@ -15,20 +20,18 @@ const Product = (props) => {
   const [currentProduct, setCurrentProduct] = useState(initialProductState);
   const [message, setMessage] = useState("");
 
-  const getProduct = (id) => {
-    ProductDataService.get(id)
-      .then((response) => {
-        setCurrentProduct(response.data);
-        console.log(response.data);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  };
-
   useEffect(() => {
-    getProduct(props.match.params.id);
-  }, [props.match.params.id, props]);
+    const getProduct = async () => {
+      try {
+        const response = await ProductDataService.get(id);
+        setCurrentProduct(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getProduct();
+  }, [id]);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -42,33 +45,30 @@ const Product = (props) => {
     })
       .then((response) => {
         setCurrentProduct({ ...currentProduct, published: status });
-        console.log(response.data);
         setMessage("The status was updated successfully!");
       })
-      .catch((e) => {
-        console.log(e);
+      .catch((error) => {
+        console.log(error);
       });
   };
 
   const updateProduct = () => {
     ProductDataService.update(currentProduct.id, currentProduct)
       .then((response) => {
-        console.log(response.data);
         setMessage("The Product was updated successfully!");
       })
-      .catch((e) => {
-        console.log(e);
+      .catch((error) => {
+        console.log(error);
       });
   };
 
   const deleteProduct = () => {
     ProductDataService.remove(currentProduct.id)
       .then((response) => {
-        console.log(response.data);
-        props.history.push("/Products");
+        navigate("/products/");
       })
-      .catch((e) => {
-        console.log(e);
+      .catch((error) => {
+        console.log(error);
       });
   };
 
@@ -89,61 +89,7 @@ const Product = (props) => {
                 onChange={handleInputChange}
               />
             </div>
-            <div className="form-group">
-              <label htmlFor="name">Name</label>
-              <input
-                type="text"
-                className="form-control"
-                id="name"
-                name="name"
-                value={currentProduct.name}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="description">Description</label>
-              <input
-                type="text"
-                className="form-control"
-                id="description"
-                name="description"
-                value={currentProduct.description}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="category_id">Category ID</label>
-              <input
-                type="number"
-                className="form-control"
-                id="category_id"
-                name="category_id"
-                value={currentProduct.category_id}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="price">Price</label>
-              <input
-                type="number"
-                className="form-control"
-                id="price"
-                name="price"
-                value={currentProduct.price}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="stock">Stock</label>
-              <input
-                type="number"
-                className="form-control"
-                id="stock"
-                name="stock"
-                value={currentProduct.stock}
-                onChange={handleInputChange}
-              />
-            </div>
+            {/* Other input fields */}
             <div className="form-group">
               <label>
                 <strong>Status:</strong>

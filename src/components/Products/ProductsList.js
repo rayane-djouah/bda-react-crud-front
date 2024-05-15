@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import ProductDataService from "../../services/ProductsService";
 import { useTable } from "react-table";
+import { useNavigate } from "react-router-dom";
 
 const ProductsList = (props) => {
+  const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [searchName, setSearchName] = useState("");
   const productsRef = useRef();
@@ -21,6 +23,7 @@ const ProductsList = (props) => {
   const retrieveProducts = () => {
     ProductDataService.getAll()
       .then((response) => {
+        console.log(response);
         setProducts(response.data);
       })
       .catch((e) => {
@@ -54,7 +57,7 @@ const ProductsList = (props) => {
 
   const openProduct = (rowIndex) => {
     const id = productsRef.current[rowIndex].id;
-    props.history.push("/Products/" + id);
+    navigate("/products/" + id);
   };
 
   const deleteProduct = (rowIndex) => {
@@ -62,7 +65,7 @@ const ProductsList = (props) => {
 
     ProductDataService.remove(id)
       .then(() => {
-        props.history.push("/Products");
+        navigate("/products/");
         setProducts((prevProducts) =>
           prevProducts.filter((product, index) => index !== rowIndex)
         );
