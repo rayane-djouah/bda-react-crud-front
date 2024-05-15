@@ -5,9 +5,15 @@ import "@fortawesome/fontawesome-free/css/all.css";
 import "@fortawesome/fontawesome-free/js/all.js";
 import "./App.css";
 
+import ProductsList from "./components/Products/ProductsList";
 import AddProduct from "./components/Products/AddProduct";
 import Product from "./components/Products/Product";
-import ProductsList from "./components/Products/ProductsList";
+import CustomersList from "./components/Customers/CustomersList";
+import AddCustomer from "./components/Customers/AddCustomer";
+import Customer from "./components/Customers/Customer";
+import OrdersList from "./components/Orders/OrdersList";
+import AddOrder from "./components/Orders/AddOrder";
+import Order from "./components/Orders/Order";
 
 function App() {
   return (
@@ -41,6 +47,12 @@ function App() {
           <Route path="/products" element={<ProductsList />} />
           <Route path="/products/add" element={<AddProduct />} />
           <Route path="/products/:id" element={<Product />} />
+          <Route path="/customers" element={<CustomersList />} />
+          <Route path="/customers/add" element={<AddCustomer />} />
+          <Route path="/customers/:id" element={<Customer />} />
+          <Route path="/orders" element={<OrdersList />} />
+          <Route path="/orders/add" element={<AddOrder />} />
+          <Route path="/orders/:id" element={<Order />} />
         </Routes>
       </div>
     </div>
