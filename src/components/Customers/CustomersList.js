@@ -56,6 +56,10 @@ const CustomersList = (props) => {
     }
   };
 
+  const openCart = (CustomerId) => {
+    navigate(`/customers/${CustomerId}/cart`);
+  };
+
   const columns = useMemo(
     () => [
       {
@@ -91,6 +95,12 @@ const CustomersList = (props) => {
               style={{ marginLeft: "8px" }}
             >
               <i className="fas fa-trash action"></i>
+            </span>
+            <span
+              onClick={() => openCart(row.original.id)}
+              style={{ marginLeft: "8px" }}
+            >
+              <i class="fa fa-cart-plus"></i>
             </span>
           </div>
         ),

@@ -3,11 +3,14 @@ import ProductDataService from "../../services/ProductsService";
 import { useTable } from "react-table";
 import { useNavigate } from "react-router-dom";
 import Product from "./Product";
+import CartService from "../../services/CartService";
+import AddToCart from "../Carts/AddToCart";
 
 const ProductsList = (props) => {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
-  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [selectedProductForEdit, setSelectedProductForEdit] = useState(null);
+  const [selectedProductForCart, setSelectedProductForCart] = useState(null);
   const productsRef = useRef();
 
   productsRef.current = products;
@@ -27,8 +30,8 @@ const ProductsList = (props) => {
       });
   };
 
-  const openProduct = (rowIndex) => {
-    setSelectedProduct(productsRef.current[rowIndex]);
+  const openProductForEdit = (rowIndex) => {
+    setSelectedProductForEdit(productsRef.current[rowIndex]);
   };
 
   const handleDeleteProduct = (productId) => {
@@ -37,7 +40,7 @@ const ProductsList = (props) => {
         setProducts((prevProducts) =>
           prevProducts.filter((product) => product.id !== productId)
         );
-        setSelectedProduct(null);
+        setSelectedProductForEdit(null);
       })
       .catch((error) => {
         console.log(error);
@@ -52,8 +55,16 @@ const ProductsList = (props) => {
       const updatedProducts = [...products];
       updatedProducts[index] = updatedProduct;
       setProducts(updatedProducts);
-      setSelectedProduct(updatedProduct);
+      setSelectedProductForEdit(updatedProduct);
     }
+  };
+
+  const handleAddToCart = () => {
+    setSelectedProductForCart(null);
+  };
+
+  const openProductForAddToCart = (rowIndex) => {
+    setSelectedProductForCart(productsRef.current[rowIndex]);
   };
 
   const columns = useMemo(
@@ -91,7 +102,7 @@ const ProductsList = (props) => {
         accessor: "actions",
         Cell: ({ row }) => (
           <div>
-            <span onClick={() => openProduct(row.id)}>
+            <span onClick={() => openProductForEdit(row.id)}>
               <i className="far fa-edit action mr-2"></i>
             </span>
             <span
@@ -99,6 +110,12 @@ const ProductsList = (props) => {
               style={{ marginLeft: "8px" }}
             >
               <i className="fas fa-trash action"></i>
+            </span>
+            <span
+              onClick={() => openProductForAddToCart(row.id)}
+              style={{ marginLeft: "8px" }}
+            >
+              <i class="fa fa-cart-plus"></i>
             </span>
           </div>
         ),
@@ -158,11 +175,18 @@ const ProductsList = (props) => {
         </button>
       </div>
 
-      {selectedProduct && (
+      {selectedProductForEdit && (
         <Product
-          product={selectedProduct}
+          product={selectedProductForEdit}
           handleUpdateProduct={handleUpdateProduct}
           handleDeleteProduct={handleDeleteProduct}
+        />
+      )}
+
+      {selectedProductForCart && (
+        <AddToCart
+          product={selectedProductForCart}
+          handleAddToCart={handleAddToCart}
         />
       )}
     </div>

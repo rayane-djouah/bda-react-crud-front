@@ -7,12 +7,9 @@ import "./App.css";
 
 import ProductsList from "./components/Products/ProductsList";
 import AddProduct from "./components/Products/AddProduct";
-import Product from "./components/Products/Product";
 import CustomersList from "./components/Customers/CustomersList";
 import AddCustomer from "./components/Customers/AddCustomer";
-import OrdersList from "./components/Orders/OrdersList";
-import AddOrder from "./components/Orders/AddOrder";
-import Order from "./components/Orders/Order";
+import CartEntriesList from "./components/Carts/Cart";
 
 function App() {
   return (
@@ -47,8 +44,7 @@ function App() {
           <Route path="/products/add" element={<AddProduct />} />
           <Route path="/customers" element={<CustomersList />} />
           <Route path="/customers/add" element={<AddCustomer />} />
-          <Route path="/orders" element={<OrdersList />} />
-          <Route path="/orders/add" element={<AddOrder />} />
+          <Route path="/customers/:id/cart" element={<CartEntriesList />} />
         </Routes>
       </div>
     </div>
