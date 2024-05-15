@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import CartEntry from "./CartEntry";
 import CartService from "../../services/CartService";
 import { useParams } from "react-router-dom";
+import OrdersService from "../../services/OrdersService";
 
 const CartEntriesList = () => {
   const { id } = useParams();
@@ -83,6 +84,16 @@ const CartEntriesList = () => {
         console.log(e);
       });
   };
+  const handleOrder = () => {
+    OrdersService.order(customer_id, CartEntries)
+      .then((response) => {
+        console.log(response);
+        setCartEntries([]);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
   return (
     <div className="list row">
       <div className="col-md-12 list">
@@ -123,6 +134,13 @@ const CartEntriesList = () => {
           onClick={handleAddCartEntry}
         >
           Add a product / quantity
+        </button>
+        <button
+          className="btn btn-sm btn-primary"
+          style={{ marginLeft: "8px" }}
+          onClick={handleOrder}
+        >
+          Order
         </button>
         <button
           className="btn btn-sm btn-danger"
