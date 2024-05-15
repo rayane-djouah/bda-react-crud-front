@@ -27,8 +27,8 @@ const Product = (props) => {
   };
 
   useEffect(() => {
-    getProduct(props.match.params.ID);
-  }, [props.match.params.ID]);
+    getProduct(props.match.params.id);
+  }, [props.match.params.id, props]);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -36,17 +36,10 @@ const Product = (props) => {
   };
 
   const updatePublished = (status) => {
-    var data = {
-      id: currentProduct.id,
-      product_code: currentProduct.product_code,
-      name: currentProduct.name,
-      description: currentProduct.description,
-      category_id: currentProduct.category_id,
-      price: currentProduct.price,
-      stock: currentProduct.stock,
-    };
-
-    ProductDataService.update(currentProduct.id, data)
+    ProductDataService.update(currentProduct.id, {
+      ...currentProduct,
+      published: status,
+    })
       .then((response) => {
         setCurrentProduct({ ...currentProduct, published: status });
         console.log(response.data);
@@ -119,9 +112,9 @@ const Product = (props) => {
               />
             </div>
             <div className="form-group">
-              <label htmlFor="category_id">Category id</label>
+              <label htmlFor="category_id">Category ID</label>
               <input
-                type="text"
+                type="number"
                 className="form-control"
                 id="category_id"
                 name="category_id"

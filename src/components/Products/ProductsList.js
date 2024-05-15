@@ -3,26 +3,24 @@ import ProductDataService from "../../services/ProductsService";
 import { useTable } from "react-table";
 
 const ProductsList = (props) => {
-  const [Products, setProducts] = useState([]);
-  const [searchNAME, setSearchNAME] = useState("");
-  const ProductsRef = useRef();
+  const [products, setProducts] = useState([]);
+  const [searchName, setSearchName] = useState("");
+  const productsRef = useRef();
 
-  ProductsRef.current = Products;
+  productsRef.current = products;
 
   useEffect(() => {
     retrieveProducts();
   }, []);
 
-  const onChangeSearchNAME = (e) => {
-    const searchNAME = e.target.value;
-    setSearchNAME(searchNAME);
+  const onChangeSearchName = (e) => {
+    const searchName = e.target.value;
+    setSearchName(searchName);
   };
 
   const retrieveProducts = () => {
     ProductDataService.getAll()
       .then((response) => {
-        console.log(response);
-        console.log(response.data);
         setProducts(response.data);
       })
       .catch((e) => {
@@ -37,7 +35,6 @@ const ProductsList = (props) => {
   const removeAllProducts = () => {
     ProductDataService.removeAll()
       .then((response) => {
-        console.log(response.data);
         refreshList();
       })
       .catch((e) => {
@@ -46,7 +43,7 @@ const ProductsList = (props) => {
   };
 
   const findByName = () => {
-    ProductDataService.findByName(searchNAME)
+    ProductDataService.findByName(searchName)
       .then((response) => {
         setProducts(response.data);
       })
@@ -56,81 +53,73 @@ const ProductsList = (props) => {
   };
 
   const openProduct = (rowIndex) => {
-    const id = ProductsRef.current[rowIndex].id;
-
+    const id = productsRef.current[rowIndex].id;
     props.history.push("/Products/" + id);
   };
 
   const deleteProduct = (rowIndex) => {
-    const id = ProductsRef.current[rowIndex].id;
+    const id = productsRef.current[rowIndex].id;
 
     ProductDataService.remove(id)
-      .then((response) => {
+      .then(() => {
         props.history.push("/Products");
-
-        let newProducts = [...ProductsRef.current];
-        newProducts.splice(rowIndex, 1);
-
-        setProducts(newProducts);
+        setProducts((prevProducts) =>
+          prevProducts.filter((product, index) => index !== rowIndex)
+        );
       })
       .catch((e) => {
         console.log(e);
       });
   };
+
   const columns = useMemo(
     () => [
       {
-        Header: "id",
+        Header: "ID",
         accessor: "id",
       },
       {
-        Header: "product_code",
+        Header: "Product Code",
         accessor: "product_code",
       },
       {
-        Header: "name",
+        Header: "Name",
         accessor: "name",
       },
       {
-        Header: "description",
+        Header: "Description",
         accessor: "description",
       },
       {
-        Header: "category_id",
+        Header: "Category ID",
         accessor: "category_id",
       },
       {
-        Header: "price",
+        Header: "Price",
         accessor: "price",
       },
       {
-        Header: "stock",
+        Header: "Stock",
         accessor: "stock",
       },
       {
         Header: "Status",
         accessor: "published",
-        Cell: (props) => {
-          return props.value ? "Published" : "Pending";
-        },
+        Cell: ({ value }) => (value ? "Published" : "Pending"),
       },
       {
         Header: "Actions",
         accessor: "actions",
-        Cell: (props) => {
-          const rowIdx = props.row.id;
-          return (
-            <div>
-              <span onClick={() => openProduct(rowIdx)}>
-                <i className="far fa-edit action mr-2"></i>
-              </span>
-
-              <span onClick={() => deleteProduct(rowIdx)}>
-                <i className="fas fa-trash action"></i>
-              </span>
-            </div>
-          );
-        },
+        Cell: ({ row }) => (
+          <div>
+            <span onClick={() => openProduct(row.id)}>
+              <i className="far fa-edit action mr-2"></i>
+            </span>
+            <span onClick={() => deleteProduct(row.id)}>
+              <i className="fas fa-trash action"></i>
+            </span>
+          </div>
+        ),
       },
     ],
     []
@@ -139,7 +128,7 @@ const ProductsList = (props) => {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({
       columns,
-      data: Products,
+      data: products,
     });
 
   return (
@@ -149,9 +138,9 @@ const ProductsList = (props) => {
           <input
             type="text"
             className="form-control"
-            placeholder="Search by NAME"
-            value={searchNAME}
-            onChange={onChangeSearchNAME}
+            placeholder="Search by Name"
+            value={searchName}
+            onChange={onChangeSearchName}
           />
           <div className="input-group-append">
             <button
@@ -185,11 +174,9 @@ const ProductsList = (props) => {
               prepareRow(row);
               return (
                 <tr {...row.getRowProps()}>
-                  {row.cells.map((cell) => {
-                    return (
-                      <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
-                    );
-                  })}
+                  {row.cells.map((cell) => (
+                    <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                  ))}
                 </tr>
               );
             })}

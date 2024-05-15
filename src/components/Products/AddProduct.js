@@ -3,33 +3,25 @@ import ProductDataService from "../../services/ProductsService";
 
 const AddProduct = () => {
   const initialProductState = {
-    id: null,
-    NAME: "",
+    product_code: "",
+    name: "",
     description: "",
-    published: false,
+    category_id: 0,
+    price: 0,
+    stock: 0,
   };
-  const [Product, setProduct] = useState(initialProductState);
+  const [product, setProduct] = useState(initialProductState);
   const [submitted, setSubmitted] = useState(false);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    setProduct({ ...Product, [name]: value });
+    setProduct({ ...product, [name]: value });
   };
 
   const saveProduct = () => {
-    var data = {
-      NAME: Product.NAME,
-      description: Product.description,
-    };
-
-    ProductDataService.create(data)
+    ProductDataService.create(product)
       .then((response) => {
-        setProduct({
-          id: response.data.id,
-          NAME: response.data.NAME,
-          description: response.data.description,
-          published: response.data.published,
-        });
+        setProduct(response.data);
         setSubmitted(true);
         console.log(response.data);
       })
@@ -55,15 +47,15 @@ const AddProduct = () => {
       ) : (
         <div>
           <div className="form-group">
-            <label htmlFor="NAME">NAME</label>
+            <label htmlFor="name">Name</label>
             <input
               type="text"
               className="form-control"
-              id="NAME"
+              id="name"
               required
-              value={Product.NAME}
+              value={product.name}
               onChange={handleInputChange}
-              name="NAME"
+              name="name"
             />
           </div>
 
@@ -74,7 +66,7 @@ const AddProduct = () => {
               className="form-control"
               id="description"
               required
-              value={Product.description}
+              value={product.description}
               onChange={handleInputChange}
               name="description"
             />
