@@ -20,6 +20,7 @@ const Customer = ({ Customer, handleDeleteCustomer, handleUpdateCustomer }) => {
       balance_change: balance,
     })
       .then((response) => {
+        currentCustomer.balance += parseInt(balance);
         handleUpdateCustomer(currentCustomer);
         setMessage("The Customer was updated successfully!");
       })
