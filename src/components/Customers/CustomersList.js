@@ -100,7 +100,7 @@ const CustomersList = (props) => {
               onClick={() => openCart(row.original.id)}
               style={{ marginLeft: "8px" }}
             >
-              <i class="fa-solid fa-cart-shopping"></i>
+              <i class="fa-solid fa-cart-shopping action"></i>
             </span>
           </div>
         ),
