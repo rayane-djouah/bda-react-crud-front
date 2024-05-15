@@ -154,7 +154,7 @@ const OrdersList = (props) => {
             {headerGroups.map((headerGroup) => (
               <tr {...headerGroup.getHeaderGroupProps()}>
                 {headerGroup.headers.map((column) => (
-                  <th {...column.getHeaderProps()}>
+                  <th key={column.id} {...column.getHeaderProps()}>
                     {column.render("Header")}
                   </th>
                 ))}
