@@ -125,7 +125,7 @@ const ProductsList = (props) => {
               <i className="far fa-edit action mr-2"></i>
             </span>
             <span
-              onClick={() => handleDeleteProduct(row.id)}
+              onClick={() => handleDeleteProduct(row.original.id)}
               style={{ marginLeft: "8px" }}
             >
               <i className="fas fa-trash action"></i>
