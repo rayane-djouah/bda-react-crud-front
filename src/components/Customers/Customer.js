@@ -15,7 +15,10 @@ const Customer = ({ Customer, handleDeleteCustomer, handleUpdateCustomer }) => {
   };
 
   const updateCustomer = () => {
-    CustomerDataService.updateBalance(currentCustomer.id, balance)
+    console.log(balance);
+    CustomerDataService.updateBalance(currentCustomer.id, {
+      balance_change: balance,
+    })
       .then((response) => {
         handleUpdateCustomer(currentCustomer);
         setMessage("The Customer was updated successfully!");
