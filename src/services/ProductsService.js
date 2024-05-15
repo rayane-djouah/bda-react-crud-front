@@ -24,10 +24,6 @@ const removeAll = () => {
   return http.delete(`/products`);
 };
 
-const findByName = (NAME) => {
-  return http.get(`/products?name=${NAME}`);
-};
-
 const ProductService = {
   getAll,
   get,
@@ -35,7 +31,6 @@ const ProductService = {
   update,
   remove,
   removeAll,
-  findByName,
 };
 
 export default ProductService;
