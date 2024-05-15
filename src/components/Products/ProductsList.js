@@ -2,11 +2,13 @@ import React, { useState, useEffect, useMemo, useRef } from "react";
 import ProductDataService from "../../services/ProductsService";
 import { useTable } from "react-table";
 import { useNavigate } from "react-router-dom";
+import Product from "./Product";
 
 const ProductsList = (props) => {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [searchName, setSearchName] = useState("");
+  const [selectedProduct, setSelectedProduct] = useState(null);
   const productsRef = useRef();
 
   productsRef.current = products;
@@ -56,23 +58,32 @@ const ProductsList = (props) => {
   };
 
   const openProduct = (rowIndex) => {
-    const id = productsRef.current[rowIndex].id;
-    navigate("/products/" + id);
+    setSelectedProduct(productsRef.current[rowIndex]);
   };
 
-  const deleteProduct = (rowIndex) => {
-    const id = productsRef.current[rowIndex].id;
-
-    ProductDataService.remove(id)
-      .then(() => {
-        navigate("/products/");
+  const handleDeleteProduct = (productId) => {
+    ProductDataService.remove(productId)
+      .then((response) => {
         setProducts((prevProducts) =>
-          prevProducts.filter((product, index) => index !== rowIndex)
+          prevProducts.filter((product) => product.id !== productId)
         );
+        setSelectedProduct(null);
       })
-      .catch((e) => {
-        console.log(e);
+      .catch((error) => {
+        console.log(error);
       });
+  };
+
+  const handleUpdateProduct = (updatedProduct) => {
+    const index = products.findIndex(
+      (product) => product.id === updatedProduct.id
+    );
+    if (index !== -1) {
+      const updatedProducts = [...products];
+      updatedProducts[index] = updatedProduct;
+      setProducts(updatedProducts);
+      setSelectedProduct(updatedProduct);
+    }
   };
 
   const columns = useMemo(
@@ -106,11 +117,6 @@ const ProductsList = (props) => {
         accessor: "stock",
       },
       {
-        Header: "Status",
-        accessor: "published",
-        Cell: ({ value }) => (value ? "Published" : "Pending"),
-      },
-      {
         Header: "Actions",
         accessor: "actions",
         Cell: ({ row }) => (
@@ -119,7 +125,7 @@ const ProductsList = (props) => {
               <i className="far fa-edit action mr-2"></i>
             </span>
             <span
-              onClick={() => deleteProduct(row.id)}
+              onClick={() => handleDeleteProduct(row.id)}
               style={{ marginLeft: "8px" }}
             >
               <i className="fas fa-trash action"></i>
@@ -204,6 +210,14 @@ const ProductsList = (props) => {
           Add Product
         </button>
       </div>
+
+      {selectedProduct && (
+        <Product
+          product={selectedProduct}
+          handleUpdateProduct={handleUpdateProduct}
+          handleDeleteProduct={handleDeleteProduct}
+        />
+      )}
     </div>
   );
 };

@@ -1,60 +1,22 @@
-import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import React, { useState } from "react";
 import ProductDataService from "../../services/ProductsService";
 import { useNavigate } from "react-router-dom";
 
-const Product = () => {
-  const { id } = useParams();
+const Product = ({ product, handleDeleteProduct, handleUpdateProduct }) => {
   const navigate = useNavigate();
 
-  const initialProductState = {
-    id: 0,
-    product_code: "",
-    name: "",
-    description: "",
-    category_id: 0,
-    price: 0,
-    stock: 0,
-    published: true,
-  };
-  const [currentProduct, setCurrentProduct] = useState(initialProductState);
+  const [currentProduct, setCurrentProduct] = useState(product);
   const [message, setMessage] = useState("");
-
-  useEffect(() => {
-    const getProduct = async () => {
-      try {
-        const response = await ProductDataService.get(id);
-        setCurrentProduct(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    getProduct();
-  }, [id]);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setCurrentProduct({ ...currentProduct, [name]: value });
   };
 
-  const updatePublished = (status) => {
-    ProductDataService.update(currentProduct.id, {
-      ...currentProduct,
-      published: status,
-    })
-      .then((response) => {
-        setCurrentProduct({ ...currentProduct, published: status });
-        setMessage("The status was updated successfully!");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
   const updateProduct = () => {
     ProductDataService.update(currentProduct.id, currentProduct)
       .then((response) => {
+        handleUpdateProduct(currentProduct);
         setMessage("The Product was updated successfully!");
       })
       .catch((error) => {
@@ -65,7 +27,7 @@ const Product = () => {
   const deleteProduct = () => {
     ProductDataService.remove(currentProduct.id)
       .then((response) => {
-        navigate("/products/");
+        handleDeleteProduct(currentProduct.id);
       })
       .catch((error) => {
         console.log(error);
@@ -73,7 +35,7 @@ const Product = () => {
   };
 
   return (
-    <div>
+    <div style={{ marginTop: "10px" }}>
       {currentProduct ? (
         <div className="edit-form">
           <h4>Product</h4>
@@ -144,33 +106,7 @@ const Product = () => {
                 onChange={handleInputChange}
               />
             </div>
-            <div className="form-group">
-              <label>
-                <strong>Status:</strong>
-              </label>
-              {currentProduct.published ? "Published" : "Pending"}
-            </div>
           </form>
-
-          {currentProduct.published ? (
-            <button
-              className="badge badge-primary mr-2"
-              onClick={() => updatePublished(false)}
-            >
-              UnPublish
-            </button>
-          ) : (
-            <button
-              className="badge badge-primary mr-2"
-              onClick={() => updatePublished(true)}
-            >
-              Publish
-            </button>
-          )}
-
-          <button className="badge badge-danger mr-2" onClick={deleteProduct}>
-            Delete
-          </button>
 
           <button
             type="submit"
@@ -179,6 +115,11 @@ const Product = () => {
           >
             Update
           </button>
+
+          <button className="badge badge-danger mr-2" onClick={deleteProduct}>
+            Delete
+          </button>
+
           <p>{message}</p>
         </div>
       ) : (
