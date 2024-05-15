@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import CustomerDataService from "../../services/CustomersService";
+import { useNavigate } from "react-router-dom";
 
 const AddCustomer = () => {
   const initialCustomerState = {
@@ -10,6 +11,7 @@ const AddCustomer = () => {
     balance: 0,
     published: true,
   };
+  const navigate = useNavigate();
   const [customer, setCustomer] = useState(initialCustomerState);
   const [submitted, setSubmitted] = useState(false);
 
@@ -19,25 +21,11 @@ const AddCustomer = () => {
   };
 
   const saveCustomer = () => {
-    var data = {
-      name: customer.name,
-      phone: customer.phone,
-      address: customer.address,
-      balance: customer.balance,
-      published: customer.published,
-    };
-
-    CustomerDataService.create(data)
+    CustomerDataService.create(customer)
       .then((response) => {
-        setCustomer({
-          id: response.data.id,
-          name: response.data.name,
-          phone: response.data.phone,
-          address: response.data.address,
-          balance: response.data.balance,
-          published: response.data.published,
-        });
+        setCustomer(initialCustomerState);
         setSubmitted(true);
+        navigate("/customers/");
         console.log(response.data);
       })
       .catch((e) => {
@@ -51,12 +39,12 @@ const AddCustomer = () => {
   };
 
   return (
-    <div className="submit-form">
+    <div className="submit-form" style={{ marginTop: "10px" }}>
       {submitted ? (
         <div>
           <h4>You submitted successfully!</h4>
           <button className="btn btn-success" onClick={newCustomer}>
-            Add
+            Add Another Customer
           </button>
         </div>
       ) : (
@@ -110,7 +98,11 @@ const AddCustomer = () => {
             />
           </div>
 
-          <button onClick={saveCustomer} className="btn btn-success">
+          <button
+            onClick={saveCustomer}
+            className="btn btn-success"
+            style={{ marginTop: "10px" }}
+          >
             Submit
           </button>
         </div>

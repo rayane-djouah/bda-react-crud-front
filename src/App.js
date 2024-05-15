@@ -10,7 +10,6 @@ import AddProduct from "./components/Products/AddProduct";
 import Product from "./components/Products/Product";
 import CustomersList from "./components/Customers/CustomersList";
 import AddCustomer from "./components/Customers/AddCustomer";
-import Customer from "./components/Customers/Customer";
 import OrdersList from "./components/Orders/OrdersList";
 import AddOrder from "./components/Orders/AddOrder";
 import Order from "./components/Orders/Order";
@@ -46,13 +45,10 @@ function App() {
           <Route path="/" element={<ProductsList />} />
           <Route path="/products" element={<ProductsList />} />
           <Route path="/products/add" element={<AddProduct />} />
-          <Route path="/products/:id" element={<Product />} />
           <Route path="/customers" element={<CustomersList />} />
           <Route path="/customers/add" element={<AddCustomer />} />
-          <Route path="/customers/:id" element={<Customer />} />
           <Route path="/orders" element={<OrdersList />} />
           <Route path="/orders/add" element={<AddOrder />} />
-          <Route path="/orders/:id" element={<Order />} />
         </Routes>
       </div>
     </div>
