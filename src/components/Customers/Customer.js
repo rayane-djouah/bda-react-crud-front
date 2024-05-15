@@ -7,6 +7,7 @@ const Customer = ({ Customer, handleDeleteCustomer, handleUpdateCustomer }) => {
 
   const [currentCustomer, setCurrentCustomer] = useState(Customer);
   const [message, setMessage] = useState("");
+  const [balance, setBalance] = useState(0);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -14,7 +15,7 @@ const Customer = ({ Customer, handleDeleteCustomer, handleUpdateCustomer }) => {
   };
 
   const updateCustomer = () => {
-    CustomerDataService.update(currentCustomer.id, currentCustomer)
+    CustomerDataService.updateBalance(currentCustomer.id, balance)
       .then((response) => {
         handleUpdateCustomer(currentCustomer);
         setMessage("The Customer was updated successfully!");
@@ -84,18 +85,23 @@ const Customer = ({ Customer, handleDeleteCustomer, handleUpdateCustomer }) => {
                 id="address"
                 name="address"
                 disabled={true}
-                value={currentCustomer.address}
-                onChange={handleInputChange}
+                value={balance}
+                onChange={(event) => {
+                  const { name, value } = event.target;
+                  setBalance(value);
+                }}
               />
             </div>
             <div className="form-group">
-              <label htmlFor="balance">Balance</label>
+              <label htmlFor="balance">
+                Increment or substruct current balance by
+              </label>
               <input
                 type="number"
                 className="form-control"
                 id="balance"
                 name="balance"
-                value={currentCustomer.balance}
+                value={balance}
                 onChange={handleInputChange}
               />
             </div>
@@ -110,7 +116,7 @@ const Customer = ({ Customer, handleDeleteCustomer, handleUpdateCustomer }) => {
           </button>
 
           <button className="badge badge-danger mr-2" onClick={deleteCustomer}>
-            Delete
+            Delete Customer
           </button>
 
           <p>{message}</p>

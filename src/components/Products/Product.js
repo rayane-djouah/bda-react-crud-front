@@ -117,7 +117,7 @@ const Product = ({ product, handleDeleteProduct, handleUpdateProduct }) => {
           </button>
 
           <button className="badge badge-danger mr-2" onClick={deleteProduct}>
-            Delete
+            Delete Product
           </button>
 
           <p>{message}</p>

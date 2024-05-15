@@ -4,15 +4,11 @@ const getAll = () => {
   return http.get("/customers");
 };
 
-const get = (id) => {
-  return http.get(`/customers/${id}`);
-};
-
 const create = (data) => {
   return http.post("/customers", data);
 };
 
-const update = (id, data) => {
+const updateBalance = (id, data) => {
   return http.put(`/customers/${id}`, data);
 };
 
@@ -20,22 +16,11 @@ const remove = (id) => {
   return http.delete(`/customers/${id}`);
 };
 
-const removeAll = () => {
-  return http.delete(`/customers`);
-};
-
-const findByName = (NAME) => {
-  return http.get(`/customers?name=${NAME}`);
-};
-
 const customerService = {
   getAll,
-  get,
   create,
-  update,
+  updateBalance,
   remove,
-  removeAll,
-  findByName,
 };
 
 export default customerService;
