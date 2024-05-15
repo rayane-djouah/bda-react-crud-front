@@ -85,11 +85,8 @@ const Customer = ({ Customer, handleDeleteCustomer, handleUpdateCustomer }) => {
                 id="address"
                 name="address"
                 disabled={true}
-                value={balance}
-                onChange={(event) => {
-                  const { name, value } = event.target;
-                  setBalance(value);
-                }}
+                value={currentCustomer.address}
+                onChange={handleInputChange}
               />
             </div>
             <div className="form-group">
@@ -101,8 +98,10 @@ const Customer = ({ Customer, handleDeleteCustomer, handleUpdateCustomer }) => {
                 className="form-control"
                 id="balance"
                 name="balance"
-                value={balance}
-                onChange={handleInputChange}
+                onChange={(event) => {
+                  const { name, value } = event.target;
+                  setBalance(value);
+                }}
               />
             </div>
           </form>
