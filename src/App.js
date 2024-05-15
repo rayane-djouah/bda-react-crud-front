@@ -23,6 +23,11 @@ function App() {
             </Link>
           </li>
           <li className="nav-item">
+            <Link to={"/customers"} className="nav-link">
+              Customers
+            </Link>
+          </li>
+          <li className="nav-item">
             <Link to={"/orders"} className="nav-link">
               Orders
             </Link>
